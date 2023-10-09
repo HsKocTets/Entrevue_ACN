@@ -1,5 +1,5 @@
 from  dotenv import load_dotenv 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import os
 import psycopg2
 
@@ -38,16 +38,21 @@ def get_top_n():
         
         cursor = connection.cursor()
 
-        # Exécute la requête SQL 
+        # Exécute la requête SQL pour classer les documents de la table crawl en fonction de leurs scores
         cursor.execute(f"""
-            SELECT column_name 
-            FROM information_schema.columns 
-            WHERE table_schema = '{public_schema}'
-            AND table_name = 'crawl';
+            SELECT c.id, c.url, c.title, c.lang, c.last_crawled, c.last_updated, c.last_updated_date, c.md5hash, s.score
+            FROM {public_schema}.crawl c
+            JOIN {public_schema}.score s ON c.id = s.entity_id
+            ORDER BY s.score DESC
+            LIMIT {n};
         """)
 
-        rows = cursor.fetchall()
+        top_scores = cursor.fetchall()
 
-        return rows
+        # Convertir le résultat en un format JSON
+        json = {"top_documents_with_scores": top_scores}
+
+        return jsonify(json)
+
     except Exception as e:
         return f"CONNECTION FAILED or bad top: {e}", 400

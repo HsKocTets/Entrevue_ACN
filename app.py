@@ -38,13 +38,14 @@ def get_top_n():
         
         cursor = connection.cursor()
 
-        # Exécute la requête SQL pour classer les documents de la table crawl en fonction de leurs scores
+        # Exécute la requête SQL pour créer la vue sur ma database
         cursor.execute(f"""
-            SELECT c.id, c.url, c.title, c.lang, c.last_crawled, c.last_updated, c.last_updated_date, c.md5hash, s.score
-            FROM {public_schema}.crawl c
-            JOIN {public_schema}.score s ON c.id = s.entity_id
-            ORDER BY s.score DESC
-            LIMIT {n};
+            CREATE VIEW {user_schema}.top_documents_with_scores AS
+                SELECT c.id, c.url, c.title, c.lang, c.last_crawled, c.last_updated, c.last_updated_date, c.md5hash, s.score
+                FROM {public_schema}.crawl c
+                JOIN {public_schema}.score s ON c.id = s.entity_id
+                ORDER BY s.score DESC
+                LIMIT {n};
         """)
 
         top_scores = cursor.fetchall()
@@ -55,4 +56,4 @@ def get_top_n():
         return jsonify(json)
 
     except Exception as e:
-        return f"CONNECTION FAILED or bad top: {e}", 400
+        return f"CONNECTION FAILED OR BAD TOP: {e}", 400

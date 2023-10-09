@@ -1,0 +1,13 @@
+Environnement virtuel
+-----------------------------------------------------------------------------------------------------------------
+Vidéo : https://www.youtube.com/watch?v=DlNIXC9SaF4
+pyenv-win: https://github.com/pyenv-win/pyenv-win#usage
+
+Commande									Description
+--------									----------
+pyenv local 3.11.1 						Spécifie la version de python
+pyenv exec python -m venv .venv		Créé le répertoire de l'environnement virtuel
+.\.venv\Scripts\activate				Démarre l'environnement virtuel .\.venv\Scripts\activate
+pip install -r .\requirements.txt   		Installe les librairies nécessaires à l'environnement virtuel
+-----------------------------------------------------------------------------------------------------------------
+

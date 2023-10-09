@@ -40,12 +40,11 @@ def get_top_n():
 
         # Exécute la requête SQL pour créer la vue sur ma database
         cursor.execute(f"""
-            CREATE VIEW {user_schema}.top_documents_with_scores AS
-                SELECT c.id, c.url, c.title, c.lang, c.last_crawled, c.last_updated, c.last_updated_date, c.md5hash, s.score
-                FROM {public_schema}.crawl c
-                JOIN {public_schema}.score s ON c.id = s.entity_id
-                ORDER BY s.score DESC
-                LIMIT {n};
+            SELECT c.id, c.url, c.title, c.lang, c.last_crawled, c.last_updated, c.last_updated_date, c.md5hash, s.score
+            FROM {public_schema}.crawl c
+            JOIN {public_schema}.score s ON c.id = s.entity_id
+            ORDER BY s.score DESC
+            LIMIT {n};
         """)
 
         top_scores = cursor.fetchall()

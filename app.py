@@ -22,7 +22,7 @@ user_schema = os.getenv("USER_SCHEMA")
 @app.route("/top", methods=['GET'])
 def get_top_n():
     try:
-    # Connexion à la base de données
+        # Connexion à la base de données
         connection = psycopg2.connect(
             host=host,
             port=port,
@@ -30,6 +30,12 @@ def get_top_n():
             user=username,
             password=password
         )
-        return "CONNECTION SUCCEEDED"
+
+        n = int(request.args.get('N'))
+        if n < 1 or n > 100:
+            # Code d'erreur 400 pour "Bad Request"
+            return 'Error: N must be between 1 and 100', 400
+        
+        return f"CONNECTION SUCCEEDED, this is your top: {n}"
     except Exception as e:
-        return f"CONNECTION FAILED: {e}", 400
+        return f"CONNECTION FAILED or bad top: {e}", 400

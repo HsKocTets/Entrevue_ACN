@@ -36,6 +36,18 @@ def get_top_n():
             # Code d'erreur 400 pour "Bad Request"
             return 'Error: N must be between 1 and 100', 400
         
-        return f"CONNECTION SUCCEEDED, this is your top: {n}"
+        cursor = connection.cursor()
+
+        # Exécute la requête SQL 
+        cursor.execute(f"""
+            SELECT column_name 
+            FROM information_schema.columns 
+            WHERE table_schema = '{public_schema}'
+            AND table_name = 'crawl';
+        """)
+
+        rows = cursor.fetchall()
+
+        return rows
     except Exception as e:
         return f"CONNECTION FAILED or bad top: {e}", 400

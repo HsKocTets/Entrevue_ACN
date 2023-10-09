@@ -11,3 +11,10 @@ pyenv exec python -m venv .venv		Créé le répertoire de l'environnement virtue
 pip install -r .\requirements.txt   		Installe les librairies nécessaires à l'environnement virtuel
 -----------------------------------------------------------------------------------------------------------------
 
+Colonnes des différentes tables
+-----------------------------------------------------------------------------------------------------------------
+Table crawl
+    {"columns": [["id"], ["url"], ["title"], ["lang"], ["last_crawled"], ["last_updated"], ["last_updated_date"], ["md5hash"]]}
+Table score
+    {"columns": [["entity_id"], ["score"], ["score_type"]]}
+-----------------------------------------------------------------------------------------------------------------

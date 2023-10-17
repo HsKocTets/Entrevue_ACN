@@ -1,4 +1,4 @@
 python-dotenv
 flask
 psycopg2-binary
-unittest
+unittest2
